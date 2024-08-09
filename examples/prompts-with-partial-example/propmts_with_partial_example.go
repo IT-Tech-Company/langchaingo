@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/tmc/langchaingo/prompts"
+	"github.com/IT-Tech-Company/langchaingo/prompts"
 )
 
 func main() {

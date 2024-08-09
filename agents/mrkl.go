@@ -7,11 +7,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/tmc/langchaingo/callbacks"
-	"github.com/tmc/langchaingo/chains"
-	"github.com/tmc/langchaingo/llms"
-	"github.com/tmc/langchaingo/schema"
-	"github.com/tmc/langchaingo/tools"
+	"github.com/IT-Tech-Company/langchaingo/callbacks"
+	"github.com/IT-Tech-Company/langchaingo/chains"
+	"github.com/IT-Tech-Company/langchaingo/llms"
+	"github.com/IT-Tech-Company/langchaingo/schema"
+	"github.com/IT-Tech-Company/langchaingo/tools"
 )
 
 const (

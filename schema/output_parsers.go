@@ -1,6 +1,6 @@
 package schema
 
-import "github.com/tmc/langchaingo/llms"
+import "github.com/IT-Tech-Company/langchaingo/llms"
 
 // OutputParser is an interface for parsing the output of an LLM call.
 type OutputParser[T any] interface {

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/tmc/langchaingo/internal/util"
+	"github.com/IT-Tech-Company/langchaingo/internal/util"
 )
 
 // NewEmbedder creates a new Embedder from the given EmbedderClient, with

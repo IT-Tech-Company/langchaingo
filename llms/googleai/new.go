@@ -5,9 +5,9 @@ package googleai
 import (
 	"context"
 
+	"github.com/IT-Tech-Company/langchaingo/callbacks"
+	"github.com/IT-Tech-Company/langchaingo/llms"
 	"github.com/google/generative-ai-go/genai"
-	"github.com/tmc/langchaingo/callbacks"
-	"github.com/tmc/langchaingo/llms"
 )
 
 // GoogleAI is a type that represents a Google AI API client.

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/tmc/langchaingo/llms/openai/internal/openaiclient"
+	"github.com/IT-Tech-Company/langchaingo/llms/openai/internal/openaiclient"
 )
 
 var (

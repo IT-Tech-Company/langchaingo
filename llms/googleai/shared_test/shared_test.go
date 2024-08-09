@@ -16,12 +16,12 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/IT-Tech-Company/langchaingo/embeddings"
+	"github.com/IT-Tech-Company/langchaingo/llms"
+	"github.com/IT-Tech-Company/langchaingo/llms/googleai"
+	"github.com/IT-Tech-Company/langchaingo/llms/googleai/vertex"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"github.com/tmc/langchaingo/embeddings"
-	"github.com/tmc/langchaingo/llms"
-	"github.com/tmc/langchaingo/llms/googleai"
-	"github.com/tmc/langchaingo/llms/googleai/vertex"
 )
 
 func newGoogleAIClient(t *testing.T, opts ...googleai.Option) *googleai.GoogleAI {
@@ -230,7 +230,7 @@ func testMultiContentImageLink(t *testing.T, llm llms.Model) {
 
 	parts := []llms.ContentPart{
 		llms.ImageURLPart(
-			"https://github.com/tmc/langchaingo/blob/main/docs/static/img/parrot-icon.png?raw=true",
+			"https://github.com/IT-Tech-Company/langchaingo/blob/main/docs/static/img/parrot-icon.png?raw=true",
 		),
 		llms.TextPart("describe this image in detail"),
 	}
