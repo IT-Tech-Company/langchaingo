@@ -13,6 +13,7 @@ import (
 // this specific message.
 type MessageContent struct {
 	Role  ChatMessageType
+	Name  string
 	Parts []ContentPart
 }
 

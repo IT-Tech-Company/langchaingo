@@ -92,6 +92,7 @@ func (o *LLM) GenerateContent(ctx context.Context, messages []llms.MessageConten
 		newParts, toolCalls := ExtractToolParts(msg)
 		msg.MultiContent = newParts
 		msg.ToolCalls = toolCallsFromToolCalls(toolCalls)
+		msg.Name = mc.Name
 
 		chatMsgs = append(chatMsgs, msg)
 	}
