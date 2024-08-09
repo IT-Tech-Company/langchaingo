@@ -109,6 +109,16 @@ func (o *OpenAIFunctionsAgent) Plan(
 				}},
 			}
 
+		case llms.FunctionChatMessage:
+			mc = llms.MessageContent{
+				Role: role,
+				Name: msg.(llms.FunctionChatMessage).Name,
+				Parts: []llms.ContentPart{llms.ToolCallResponse{
+					ToolCallID: p.Name,
+					Content:    p.Content,
+				}},
+			}
+
 		case llms.AIChatMessage:
 			mc = llms.MessageContent{
 				Role: role,
