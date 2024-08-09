@@ -106,6 +106,13 @@ func (e *Executor) doIteration( // nolint
 		return steps, e.getReturn(finish, steps), nil
 	}
 
+	if len(actions) == 1 {
+		steps, err = e.checkRepeatedAction(steps, actions[0])
+		if err != nil {
+			return steps, nil, nil // not returning the error because we're giving the chance to the LLM to write the final answer
+		}
+	}
+
 	for _, action := range actions {
 		steps, err = e.doAction(ctx, steps, nameToTool, action)
 		if err != nil {
@@ -114,6 +121,19 @@ func (e *Executor) doIteration( // nolint
 	}
 
 	return steps, nil, nil
+}
+func (e *Executor) checkRepeatedAction(steps []schema.AgentStep, action schema.AgentAction) ([]schema.AgentStep, error) {
+	if len(steps) > 0 {
+		lastStep := steps[len(steps)-1]
+		if lastStep.Action.Tool == action.Tool && lastStep.Action.ToolInput == action.ToolInput {
+			return append(steps, schema.AgentStep{
+				Action:      action,
+				Observation: "ATTENTION: you are repeating the same action. Now, you have just 2 options: 1. Write the final answer. 2. Write a different action",
+			}), fmt.Errorf("repeated action: %s", action.Tool)
+		}
+	}
+
+	return steps, nil
 }
 
 func (e *Executor) doAction(
@@ -128,6 +148,13 @@ func (e *Executor) doAction(
 
 	tool, ok := nameToTool[strings.ToUpper(action.Tool)]
 	if !ok {
+		if strings.ToLower(action.Tool) == "none" {
+			return append(steps, schema.AgentStep{
+				Action:      action,
+				Observation: "ATTENTION: write the final answer. use the format -> Final Answer: ",
+			}), nil
+		}
+
 		return append(steps, schema.AgentStep{
 			Action:      action,
 			Observation: fmt.Sprintf("%s is not a valid tool, try another one", action.Tool),
