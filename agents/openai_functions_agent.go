@@ -115,7 +115,7 @@ func (o *OpenAIFunctionsAgent) Plan(
 				Name: msg.(llms.FunctionChatMessage).Name,
 				Parts: []llms.ContentPart{llms.ToolCallResponse{
 					ToolCallID: p.Name,
-					Content:    p.Content,
+					Content:    text,
 				}},
 			}
 
