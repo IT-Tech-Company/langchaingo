@@ -2,7 +2,6 @@ package agents
 
 import (
 	"context"
-	"fmt"
 	"regexp"
 	"strings"
 	"time"
@@ -134,7 +133,7 @@ func (a *OneShotZeroAgent) parseOutput(output string) ([]schema.AgentAction, *sc
 	r := regexp.MustCompile(`Action:\s*(.+)\s*Action Input:\s(?s)*(.+)`)
 	matches := r.FindStringSubmatch(output)
 	if len(matches) == 0 {
-		return nil, nil, fmt.Errorf("%w: %s", ErrUnableToParseOutput, output)
+		return nil, nil, ErrUnableToParseOutput
 	}
 
 	return []schema.AgentAction{
