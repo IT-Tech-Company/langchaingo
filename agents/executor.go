@@ -101,7 +101,7 @@ func (e *Executor) doIteration( // nolint
 
 	if finish != nil {
 		if e.CallbacksHandler != nil {
-			e.CallbacksHandler.HandleAgentFinish(ctx, *finish)
+			e.CallbacksHandler.HandleAgentFinish(ctx, *finish, callbacks.WithExecutedSteps(steps))
 		}
 		return steps, e.getReturn(finish, steps), nil
 	}
