@@ -8,6 +8,10 @@ type Options struct {
 	executedSteps []schema.AgentStep
 }
 
+func (opt *Options) ExecutedSteps() []schema.AgentStep {
+	return opt.executedSteps
+}
+
 // Option is a function type that can be used to modify the creation of the agents
 // and executors.
 type Option func(*Options)
