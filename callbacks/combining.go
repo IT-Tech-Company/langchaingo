@@ -68,7 +68,7 @@ func (l CombiningHandler) HandleAgentAction(ctx context.Context, action schema.A
 	}
 }
 
-func (l CombiningHandler) HandleAgentFinish(ctx context.Context, finish schema.AgentFinish) {
+func (l CombiningHandler) HandleAgentFinish(ctx context.Context, finish schema.AgentFinish, opt ...Option) {
 	for _, handle := range l.Callbacks {
 		handle.HandleAgentFinish(ctx, finish)
 	}

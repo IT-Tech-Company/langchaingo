@@ -24,7 +24,7 @@ type Handler interface {
 	HandleToolEnd(ctx context.Context, output string)
 	HandleToolError(ctx context.Context, err error)
 	HandleAgentAction(ctx context.Context, action schema.AgentAction)
-	HandleAgentFinish(ctx context.Context, finish schema.AgentFinish)
+	HandleAgentFinish(ctx context.Context, finish schema.AgentFinish, opts ...Option)
 	HandleRetrieverStart(ctx context.Context, query string)
 	HandleRetrieverEnd(ctx context.Context, query string, documents []schema.Document)
 	HandleStreamingFunc(ctx context.Context, chunk []byte)

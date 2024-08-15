@@ -95,7 +95,7 @@ func (l LogHandler) HandleAgentAction(_ context.Context, action schema.AgentActi
 	fmt.Println("Agent selected action:", formatAgentAction(action))
 }
 
-func (l LogHandler) HandleAgentFinish(_ context.Context, finish schema.AgentFinish) {
+func (l LogHandler) HandleAgentFinish(_ context.Context, finish schema.AgentFinish, opt ...Option) {
 	fmt.Printf("Agent finish: %v \n", finish)
 }
 
