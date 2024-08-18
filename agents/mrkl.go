@@ -87,6 +87,7 @@ func (a *OneShotZeroAgent) Plan(
 		fullInputs,
 		chains.WithStopWords([]string{"\nObservation:", "\n\tObservation:"}),
 		chains.WithStreamingFunc(stream),
+		chains.WithTemperature(0.4),
 	)
 	if err != nil {
 		return nil, nil, err
