@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
+	"time"
 )
 
 const (
@@ -78,7 +79,25 @@ type Completion struct {
 
 // CreateCompletion creates a completion.
 func (c *Client) CreateCompletion(ctx context.Context, r *CompletionRequest) (*Completion, error) {
-	resp, err := c.createCompletion(ctx, r)
+	var (
+		resp *ChatCompletionResponse
+		err  error
+	)
+	for i := 1; i < 4; i++ {
+		resp, err = c.createCompletion(ctx, r)
+		if err == nil {
+			break
+		}
+
+		if strings.Contains(err.Error(), "429") {
+			// too many requests. wait and retry
+			time.Sleep(time.Duration(5*i) * time.Second)
+			continue
+		}
+
+		return nil, err
+	}
+
 	if err != nil {
 		return nil, err
 	}
@@ -131,10 +150,29 @@ func (c *Client) CreateChat(ctx context.Context, r *ChatRequest) (*ChatCompletio
 			r.Model = c.Model
 		}
 	}
-	resp, err := c.createChat(ctx, r)
+
+	var (
+		resp *ChatCompletionResponse
+		err  error
+	)
+	for i := 1; i < 4; i++ {
+		resp, err = c.createChat(ctx, r)
+		if err == nil {
+			break
+		}
+
+		if strings.Contains(err.Error(), "429") {
+			// too many requests. wait and retry
+			time.Sleep(time.Duration(5*i) * time.Second)
+			continue
+		}
+
+		return nil, err
+	}
 	if err != nil {
 		return nil, err
 	}
+
 	if len(resp.Choices) == 0 {
 		return nil, ErrEmptyResponse
 	}
