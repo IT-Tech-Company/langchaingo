@@ -83,7 +83,7 @@ func (c *Client) CreateCompletion(ctx context.Context, r *CompletionRequest) (*C
 		resp *ChatCompletionResponse
 		err  error
 	)
-	for i := 1; i < 4; i++ {
+	for i := 1; i < 5; i++ {
 		resp, err = c.createCompletion(ctx, r)
 		if err == nil {
 			break
@@ -155,7 +155,7 @@ func (c *Client) CreateChat(ctx context.Context, r *ChatRequest) (*ChatCompletio
 		resp *ChatCompletionResponse
 		err  error
 	)
-	for i := 1; i < 4; i++ {
+	for i := 1; i < 5; i++ {
 		resp, err = c.createChat(ctx, r)
 		if err == nil {
 			break
