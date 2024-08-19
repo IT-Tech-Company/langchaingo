@@ -64,7 +64,7 @@ func (e *Executor) Call(ctx context.Context, inputValues map[string]any, _ ...ch
 
 		if e.MaxIterations > 2 && i == e.MaxIterations-2 {
 			steps = append(steps, schema.AgentStep{
-				Observation: "ATTENTION: you are running out of iterations. Make your best to give the final answer",
+				Observation: "\n Important: Do you have enough data to answer? Provide the final answer \n",
 			})
 		}
 	}
