@@ -8,6 +8,10 @@ import (
 	"github.com/IT-Tech-Company/langchaingo/tools"
 )
 
+type ContextKey string
+
+const StepsContextKey ContextKey = "steps"
+
 type Options struct {
 	prompt                  prompts.PromptTemplate
 	memory                  schema.Memory
