@@ -72,7 +72,7 @@ func (e *Executor) Call(ctx context.Context, inputValues map[string]any, _ ...ch
 	if e.CallbacksHandler != nil {
 		e.CallbacksHandler.HandleAgentFinish(ctx, schema.AgentFinish{
 			ReturnValues: map[string]any{"output": ErrNotFinished.Error()},
-		})
+		}, callbacks.WithExecutedSteps(steps))
 	}
 	return e.getReturn(
 		&schema.AgentFinish{ReturnValues: make(map[string]any)},
