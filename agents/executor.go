@@ -72,7 +72,7 @@ func (e *Executor) Call(ctx context.Context, inputValues map[string]any, _ ...ch
 	if e.CallbacksHandler != nil {
 		e.CallbacksHandler.HandleAgentFinish(ctx, schema.AgentFinish{
 			ReturnValues: map[string]any{"output": ErrNotFinished.Error()},
-		})
+		}, callbacks.WithExecutedSteps(steps))
 	}
 	return e.getReturn(
 		&schema.AgentFinish{ReturnValues: make(map[string]any)},
@@ -139,7 +139,6 @@ func (e *Executor) checkRepeatedAction(steps []schema.AgentStep, action schema.A
 
 	return steps, nil
 }
-
 func (e *Executor) doAction(
 	ctx context.Context,
 	steps []schema.AgentStep,
@@ -153,27 +152,39 @@ func (e *Executor) doAction(
 	tool, ok := nameToTool[strings.ToUpper(action.Tool)]
 	if !ok {
 		if strings.ToLower(action.Tool) == "none" {
-			return append(steps, schema.AgentStep{
+			steps = append(steps, schema.AgentStep{
 				Action:      action,
 				Observation: "ATTENTION: write the final answer. use the format -> Final Answer: ",
-			}), nil
+			})
+
+			ctx = context.WithValue(ctx, StepsContextKey, steps)
+			return steps, nil
 		}
 
-		return append(steps, schema.AgentStep{
+		steps = append(steps, schema.AgentStep{
 			Action:      action,
 			Observation: fmt.Sprintf("%s is not a valid tool, try another one", action.Tool),
-		}), nil
+		})
+
+		ctx = context.WithValue(ctx, StepsContextKey, steps)
+		return steps, nil
 	}
+
+	ctx = context.WithValue(ctx, StepsContextKey, steps)
 
 	observation, err := tool.Call(ctx, action.ToolInput)
 	if err != nil {
 		return nil, err
 	}
 
-	return append(steps, schema.AgentStep{
+	steps = append(steps, schema.AgentStep{
 		Action:      action,
 		Observation: observation,
-	}), nil
+	})
+
+	ctx = context.WithValue(ctx, StepsContextKey, steps)
+
+	return steps, nil
 }
 
 func (e *Executor) getReturn(finish *schema.AgentFinish, steps []schema.AgentStep) map[string]any {
