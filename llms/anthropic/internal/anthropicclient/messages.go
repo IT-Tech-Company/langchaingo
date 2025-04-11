@@ -66,6 +66,21 @@ func (tc TextContent) GetType() string {
 	return tc.Type
 }
 
+type ImageContent struct {
+	Type   string      `json:"type"`
+	Source ImageSource `json:"source"`
+}
+
+func (ic ImageContent) GetType() string {
+	return ic.Type
+}
+
+type ImageSource struct {
+	Type      string `json:"type"`
+	MediaType string `json:"media_type"`
+	Data      string `json:"data"`
+}
+
 type ToolUseContent struct {
 	Type  string                 `json:"type"`
 	ID    string                 `json:"id"`
@@ -135,7 +150,7 @@ func (m *MessageResponsePayload) UnmarshalJSON(data []byte) error {
 			}
 			m.Content = append(m.Content, tuc)
 		default:
-			return fmt.Errorf("unknown content type: %s", typeStruct.Type)
+			return fmt.Errorf("unknown content type: %s\n%v", typeStruct.Type, string(raw))
 		}
 	}
 
@@ -268,8 +283,10 @@ func processStreamEvent(ctx context.Context, event map[string]interface{}, paylo
 		eventChan <- MessageEvent{Response: &response, Err: nil}
 	case "ping":
 		// Nothing to do here
+	case "error":
+		eventChan <- MessageEvent{Response: nil, Err: fmt.Errorf("received error event: %v", event)}
 	default:
-		log.Printf("unknown event type: %s", eventType)
+		log.Printf("unknown event type: %s - %v", eventType, event)
 	}
 	return response, nil
 }
