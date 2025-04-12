@@ -3,13 +3,14 @@ package main
 import (
 	"context"
 	"fmt"
+	"os"
+
 	"github.com/IT-Tech-Company/langchaingo/chains"
 	"github.com/IT-Tech-Company/langchaingo/llms/openai"
 	zepLangchainMemory "github.com/IT-Tech-Company/langchaingo/memory/zep"
 	"github.com/getzep/zep-go"
 	zepClient "github.com/getzep/zep-go/client"
 	zepOption "github.com/getzep/zep-go/option"
-	"os"
 )
 
 func main() {

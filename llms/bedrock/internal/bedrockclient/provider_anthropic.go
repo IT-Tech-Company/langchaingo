@@ -267,6 +267,9 @@ func parseStreamingCompletionResponse(ctx context.Context, client *bedrockruntim
 			}
 		}
 	}
+	if err = stream.Err(); err != nil {
+		return nil, err
+	}
 
 	return &llms.ContentResponse{
 		Choices: contentchoices,
@@ -347,12 +350,13 @@ func getAnthropicRole(role llms.ChatMessageType) (string, error) {
 
 func getAnthropicInputContent(message Message) anthropicTextGenerationInputContent {
 	var c anthropicTextGenerationInputContent
-	if message.Type == AnthropicMessageTypeText {
+	switch message.Type {
+	case AnthropicMessageTypeText:
 		c = anthropicTextGenerationInputContent{
 			Type: message.Type,
 			Text: message.Content,
 		}
-	} else if message.Type == AnthropicMessageTypeImage {
+	case AnthropicMessageTypeImage:
 		c = anthropicTextGenerationInputContent{
 			Type: message.Type,
 			Source: &anthropicBinGenerationInputSource{

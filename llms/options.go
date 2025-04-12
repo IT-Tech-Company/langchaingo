@@ -21,6 +21,9 @@ type CallOptions struct {
 	// StreamingFunc is a function to be called for each chunk of a streaming response.
 	// Return an error to stop streaming early.
 	StreamingFunc func(ctx context.Context, chunk []byte) error `json:"-"`
+	// StreamingReasoningFunc is a function to be called for each chunk of a streaming response.
+	// Return an error to stop streaming early.
+	StreamingReasoningFunc func(ctx context.Context, reasoningChunk, chunk []byte) error `json:"-"`
 	// TopK is the number of tokens to consider for top-k sampling.
 	TopK int `json:"top_k"`
 	// TopP is the cumulative probability for top-p sampling.
@@ -61,6 +64,11 @@ type CallOptions struct {
 	// Metadata is a map of metadata to include in the request.
 	// The meaning of this field is specific to the backend in use.
 	Metadata map[string]interface{} `json:"metadata,omitempty"`
+
+	// ResponseMIMEType MIME type of the generated candidate text.
+	// Supported MIME types are: text/plain: (default) Text output.
+	// application/json: JSON response in the response candidates.
+	ResponseMIMEType string `json:"response_mime_type,omitempty"`
 }
 
 // Tool is a tool that can be used by the model.
@@ -79,6 +87,8 @@ type FunctionDefinition struct {
 	Description string `json:"description"`
 	// Parameters is a list of parameters for the function.
 	Parameters any `json:"parameters,omitempty"`
+	// Strict is a flag to indicate if the function should be called strictly. Only used for openai llm structured output.
+	Strict bool `json:"strict,omitempty"`
 }
 
 // ToolChoice is a specific tool to use.
@@ -152,6 +162,13 @@ func WithOptions(options CallOptions) CallOption {
 func WithStreamingFunc(streamingFunc func(ctx context.Context, chunk []byte) error) CallOption {
 	return func(o *CallOptions) {
 		o.StreamingFunc = streamingFunc
+	}
+}
+
+// WithStreamingReasoningFunc specifies the streaming reasoning function to use.
+func WithStreamingReasoningFunc(streamingReasoningFunc func(ctx context.Context, reasoningChunk, chunk []byte) error) CallOption {
+	return func(o *CallOptions) {
+		o.StreamingReasoningFunc = streamingReasoningFunc
 	}
 }
 
@@ -263,5 +280,13 @@ func WithJSONMode() CallOption {
 func WithMetadata(metadata map[string]interface{}) CallOption {
 	return func(o *CallOptions) {
 		o.Metadata = metadata
+	}
+}
+
+// WithResponseMIMEType will add an option to set the ResponseMIMEType
+// Currently only supported by googleai llms.
+func WithResponseMIMEType(responseMIMEType string) CallOption {
+	return func(o *CallOptions) {
+		o.ResponseMIMEType = responseMIMEType
 	}
 }

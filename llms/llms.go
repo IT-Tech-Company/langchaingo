@@ -3,6 +3,8 @@ package llms
 import (
 	"context"
 	"errors"
+	"regexp"
+	"strings"
 )
 
 // LLM is an alias for model, for backwards compatibility.
@@ -35,7 +37,7 @@ type Model interface {
 func GenerateFromSinglePrompt(ctx context.Context, llm Model, prompt string, options ...CallOption) (string, error) {
 	msg := MessageContent{
 		Role:  ChatMessageTypeHuman,
-		Parts: []ContentPart{TextContent{prompt}},
+		Parts: []ContentPart{TextContent{Text: prompt}},
 	}
 
 	resp, err := llm.GenerateContent(ctx, []MessageContent{msg}, options...)
@@ -48,5 +50,15 @@ func GenerateFromSinglePrompt(ctx context.Context, llm Model, prompt string, opt
 		return "", errors.New("empty response from model")
 	}
 	c1 := choices[0]
+
+	if strings.Contains(c1.Content, "<think>") {
+		return removeThinkTags(c1.Content), nil
+	}
+
 	return c1.Content, nil
+}
+
+func removeThinkTags(input string) string {
+	re := regexp.MustCompile(`(?s)<think>.*?</think>`)
+	return re.ReplaceAllString(input, "")
 }
