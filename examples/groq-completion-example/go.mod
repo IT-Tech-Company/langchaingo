@@ -5,8 +5,8 @@ go 1.22.0
 toolchain go1.22.1
 
 require (
+	github.com/IT-Tech-Company/langchaingo v0.0.1
 	github.com/joho/godotenv v1.5.1
-	github.com/tmc/langchaingo v0.1.13-pre.1
 )
 
 require (

@@ -21,6 +21,7 @@ type Options struct {
 	DefaultTopK           int
 	DefaultTopP           float64
 	HarmThreshold         HarmBlockThreshold
+	DynamicThinking       bool
 
 	ClientOptions []option.ClientOption
 }
@@ -171,6 +172,14 @@ func WithDefaultTopP(defaultTopP float64) Option {
 func WithHarmThreshold(ht HarmBlockThreshold) Option {
 	return func(opts *Options) {
 		opts.HarmThreshold = ht
+	}
+}
+
+// WithDynamicThinking enables dynamic thinking mode for the model, which
+// includes thinking configuration in the generation request.
+func WithDynamicThinking(enabled bool) Option {
+	return func(opts *Options) {
+		opts.DynamicThinking = enabled
 	}
 }
 

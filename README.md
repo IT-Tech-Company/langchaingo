@@ -73,10 +73,10 @@ Here are some links to blog posts and articles on using Langchain Go:
 </a>
 
 # Create an annotated tag
-git tag -a v0.0.1.18 -m "Release version v...18 with context var of steps executed"
+git tag -a v0.0.1.21 -m "Adding thinking enabling configuration to gemini"
 
 # Push the tag
-git push origin v0.0.1.18
+git push origin v0.0.1.21
 
 # In another project, get the module at the tagged version
-go get github.com/IT-Tech-Company/langchaingo@v0.0.1.18
+go get github.com/IT-Tech-Company/langchaingo@v0.0.1.21

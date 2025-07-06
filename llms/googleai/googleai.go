@@ -9,9 +9,9 @@ import (
 	"io"
 	"strings"
 
-	"github.com/google/generative-ai-go/genai"
 	"github.com/IT-Tech-Company/langchaingo/internal/imageutil"
 	"github.com/IT-Tech-Company/langchaingo/llms"
+	"github.com/google/generative-ai
 	"google.golang.org/api/iterator"
 )
 
@@ -47,12 +47,13 @@ func (g *GoogleAI) GenerateContent(
 	}
 
 	opts := llms.CallOptions{
-		Model:          g.opts.DefaultModel,
-		CandidateCount: g.opts.DefaultCandidateCount,
-		MaxTokens:      g.opts.DefaultMaxTokens,
-		Temperature:    g.opts.DefaultTemperature,
-		TopP:           g.opts.DefaultTopP,
-		TopK:           g.opts.DefaultTopK,
+		Model:           g.opts.DefaultModel,
+		CandidateCount:  g.opts.DefaultCandidateCount,
+		MaxTokens:       g.opts.DefaultMaxTokens,
+		Temperature:     g.opts.DefaultTemperature,
+		TopP:            g.opts.DefaultTopP,
+		TopK:            g.opts.DefaultTopK,
+		DynamicThinking: g.opts.DynamicThinking,
 	}
 	for _, opt := range options {
 		opt(&opts)

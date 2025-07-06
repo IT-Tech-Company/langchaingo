@@ -69,6 +69,10 @@ type CallOptions struct {
 	// Supported MIME types are: text/plain: (default) Text output.
 	// application/json: JSON response in the response candidates.
 	ResponseMIMEType string `json:"response_mime_type,omitempty"`
+
+	// DynamicThinking enables dynamic thinking mode for supported models.
+	// When enabled, the model will include thinking configuration in the request.
+	DynamicThinking bool `json:"dynamic_thinking,omitempty"`
 }
 
 // Tool is a tool that can be used by the model.
@@ -288,5 +292,13 @@ func WithMetadata(metadata map[string]interface{}) CallOption {
 func WithResponseMIMEType(responseMIMEType string) CallOption {
 	return func(o *CallOptions) {
 		o.ResponseMIMEType = responseMIMEType
+	}
+}
+
+// WithDynamicThinking will add an option to enable dynamic thinking mode.
+// Currently only supported by googleai llms.
+func WithDynamicThinking() CallOption {
+	return func(o *CallOptions) {
+		o.DynamicThinking = true
 	}
 }
