@@ -11,7 +11,7 @@ import (
 
 	"github.com/IT-Tech-Company/langchaingo/internal/imageutil"
 	"github.com/IT-Tech-Company/langchaingo/llms"
-	"github.com/google/generative-ai
+	"github.com/google/generative-ai-go/genai"
 	"google.golang.org/api/iterator"
 )
 
