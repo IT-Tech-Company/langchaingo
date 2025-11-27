@@ -122,7 +122,8 @@ func (ToolCallResponse) isPart() {}
 // ContentResponse is the response returned by a GenerateContent call.
 // It can potentially return multiple content choices.
 type ContentResponse struct {
-	Choices []*ContentChoice
+	Choices  []*ContentChoice
+	Provider string
 }
 
 // ContentChoice is one of the response choices returned by GenerateContent

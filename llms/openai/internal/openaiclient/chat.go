@@ -313,6 +313,7 @@ type ChatCompletionResponse struct {
 	Object            string                  `json:"object,omitempty"`
 	Usage             ChatUsage               `json:"usage,omitempty"`
 	SystemFingerprint string                  `json:"system_fingerprint"`
+	Provider          string                  `json:"provider,omitempty"`
 }
 
 type Usage struct {
