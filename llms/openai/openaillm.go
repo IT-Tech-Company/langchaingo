@@ -187,7 +187,7 @@ func (o *LLM) GenerateContent(ctx context.Context, messages []llms.MessageConten
 			choices[i].FuncCall = choices[i].ToolCalls[0].FunctionCall
 		}
 	}
-	response := &llms.ContentResponse{Choices: choices}
+	response := &llms.ContentResponse{Choices: choices, Provider: result.Provider}
 	if o.CallbacksHandler != nil {
 		o.CallbacksHandler.HandleLLMGenerateContentEnd(ctx, response)
 	}
